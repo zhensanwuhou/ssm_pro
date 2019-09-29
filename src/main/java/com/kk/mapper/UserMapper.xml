@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+* Created by ZTCGenerator<zingon@aliyun.com> on 2019-1-25.
+-->
+<mapper namespace="com.kk.dao.UserDao">
+    <resultMap id="user" type="com.kk.po.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="roleType" column="role_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="deleteFlag" column="delete_flag"/>
+    </resultMap>
+
+    <sql id="columns">
+            `id` ,`name` ,`password` ,`role_type` ,`create_time` ,`delete_flag`
+    </sql>
+
+    <insert id="insert">
+        insert into `user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="roleType != null">
+                `role_type`,
+            </if>
+            <if test="createTime != null">
+                `create_time`,
+            </if>
+            <if test="deleteFlag != null">
+                `delete_flag`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id} ,
+            </if>
+            <if test="name != null">
+                #{name} ,
+            </if>
+            <if test="password != null">
+                #{password} ,
+            </if>
+            <if test="roleType != null">
+                #{roleType} ,
+            </if>
+            <if test="createTime != null">
+                #{createTime} ,
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag} ,
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete">
+        delete from `user`
+        <trim prefix="where " prefixOverrides="and ">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="password != null">
+                and `password` = #{password}
+            </if>
+            <if test="roleType != null">
+                and `role_type` = #{roleType}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="deleteFlag != null">
+                and `delete_flag` = #{deleteFlag}
+            </if>
+        </trim>
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from `user`
+        where `id` in
+        <foreach collection="ids" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        update `user`
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="password != null">
+                `password` = #{password},
+            </if>
+            <if test="roleType != null">
+                `role_type` = #{roleType},
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime},
+            </if>
+            <if test="deleteFlag != null">
+                `delete_flag` = #{deleteFlag},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getById" resultMap="user">
+        select
+        <include refid="columns"/>
+        from `user`
+        where `id` = #{id}
+    </select>
+
+    <select id="list" resultMap="user">
+        select
+        <include refid="columns"/>
+        from `user`
+        <trim prefix="where " prefixOverrides="and ">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="password != null">
+                and `password` = #{password}
+            </if>
+            <if test="roleType != null">
+                and `role_type` = #{roleType}
+            </if>
+            <if test="createTime != null">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="deleteFlag != null">
+                and `delete_flag` = #{deleteFlag}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getUserByName" resultMap="user">
+        select <include refid="columns"/>
+        from `user` where name = #{name}
+    </select>
+
+</mapper>

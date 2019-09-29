@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/toLogin"/><!--登录页面，-->
+        <property name="successUrl" value="/success"/><!--登录成功页面，如果自己设置了返回页面，则不跳转-->
+        <property name="unauthorizedUrl" value="/error"/><!-- 没有权限跳转的地址 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /kk/**=anon <!--表示都可以访问-->
+                /toLogin=anon <!--表示都可以访问-->
+                /login=anon
+                /logout=logout <!--访问logout自动退出-->
+                <!--/admin=anon-->
+                /**=authc <!--authc表示需要认证才能访问的页面-->
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="MyRealm"/>
+    </bean>
+
+    <!-- 自定义Realm -->
+    <bean id="MyRealm" class="com.kk.shiro.realm.MyRealm">
+        <!-- 定义凭证匹配器 -->
+        <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+    </bean>
+
+    <!-- 凭证匹配器 org.apache.shiro.authc.credential.HashedCredentialsMatcher-->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!-- 加密算法名称 -->
+        <property name="hashAlgorithmName" value="MD5"></property>
+        <!-- 散列次数 -->
+        <!--<property name="hashIterations" value="2"></property>-->
+    </bean>
+
+</beans>
