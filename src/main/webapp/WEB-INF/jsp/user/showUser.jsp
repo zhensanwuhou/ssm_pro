@@ -18,8 +18,6 @@
 <script src="${ctx}/statics/js/jquery-3.3.1.js"></script>
 <script>
     var ue = UE.getEditor('container');
-
-    $("#wef")
 </script>
 
 </body>

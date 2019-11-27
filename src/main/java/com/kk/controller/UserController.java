@@ -24,6 +24,7 @@ public class UserController {
     @RequestMapping(value = "getUser")
     public String getUser(Model model , Integer id) {
         if (id == null ) id = 1;
+        System.out.println("s");
         model.addAttribute("user", userService.getById(id));
         return "user/showUser";
     }
